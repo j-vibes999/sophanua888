@@ -64,7 +64,7 @@ header .wrap { display: flex; align-items: center; justify-content: space-betwee
 @media (max-width: 480px) { .mvm { width: 44px; height: 44px; } .mvm-mark { gap: 7px; } .mvm-mark span { font-size: .7rem; } .mvm-mark span i { display: block; } .brandrow { gap: 11px; } }
 .brandrow .sep { width: 1px; align-self: stretch; margin-block: 6px; background: color-mix(in srgb, var(--gold) 30%, transparent); }
 .head-right { display: flex; align-items: center; gap: 10px; }
-.head-cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: none; color: var(--rice); font-size: .95rem; cursor: pointer; }
+.head-cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: none; color: var(--rice); font-size: .95rem; cursor: pointer; text-decoration: none; }
 .head-cta:hover { border-color: var(--gold-ink); }
 
 /* cap band (kept from the brand site) */
@@ -143,7 +143,7 @@ main .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9
 .total b { display: block; font: 900 clamp(2.4rem, 4.4vw, 3.1rem)/1 var(--price); color: var(--gold-ink); font-variant-numeric: tabular-nums; }
 .total .units { color: var(--husk); font-size: .9rem; }
 
-.order-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 60px; border: 0; border-radius: 999px; padding: 14px 24px; background: #25d366; color: #062b14; font: 600 1.12rem/1.3 var(--body); cursor: pointer; transition: transform .2s var(--ease), filter .2s; text-align: center; }
+.order-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 60px; border: 0; border-radius: 999px; padding: 14px 24px; background: #25d366; color: #062b14; font: 600 1.12rem/1.3 var(--body); cursor: pointer; transition: transform .2s var(--ease), filter .2s; text-align: center; text-decoration: none; box-sizing: border-box; }
 .order-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
 .order-btn svg { flex: none; }
 .order-btn:disabled { opacity: .6; cursor: progress; transform: none; }
@@ -170,6 +170,7 @@ main .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9
 .done pre { margin: 0; white-space: pre-wrap; font: 400 .98rem/1.8 var(--body); color: var(--husk); }
 .done .acts { display: flex; flex-wrap: wrap; gap: 10px; }
 .done a, .done button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--hearth); color: var(--rice); text-decoration: none; cursor: pointer; font-size: .95rem; }
+.done a#retryApp { background: #25d366; color: #062b14; font-weight: 600; border-color: #25d366; }
 
 .info { display: grid; gap: 0; border-radius: 20px; border: 1px solid var(--line); overflow: hidden; }
 .info div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 12px; padding: 12px 18px; border-top: 1px solid var(--line); }
@@ -210,7 +211,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     background: color-mix(in srgb, var(--night) 90%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); }
   .bar b { font: 900 1.7rem/1 var(--price); color: var(--gold-ink); }
   .bar span { display: block; color: var(--husk); font-size: .82rem; }
-  .bar button { border: 0; min-height: 48px; background: #25d366; color: #062b14; font-weight: 600; border-radius: 999px; padding: 0 20px; cursor: pointer; }
+  .bar button, .bar .bar-btn { border: 0; min-height: 48px; background: #25d366; color: #062b14; font-weight: 600; border-radius: 999px; padding: 0 20px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: .95rem; }
   footer { padding-bottom: 80px; }
   .head-cta { display: none; }
 }
@@ -229,7 +230,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     <div class="brandrow"><div class="mvm-mark" translate="no"><img class="mvm" src="media/mvm.webp" width="52" height="52" alt=""><span>MVM <i>GROUP</i></span></div><i class="sep" aria-hidden="true"></i>
     <a class="logo" href="#top" translate="no"><b>ໂສພານົວ</b><span>SOPHANUA</span></a></div>
     <div class="head-right">
-      <button class="head-cta" type="button" data-order>ສັ່ງທາງ WhatsApp</button>
+      <a class="head-cta" id="headOrderBtn" href="#orderWrap" data-order target="_blank" rel="noopener">ສັ່ງທາງ WhatsApp</a>
     </div>
   </div>
 </header>
@@ -300,10 +301,10 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       </form>
 
       <div class="order-wrap" id="orderWrap">
-        <button class="order-btn" type="button" id="orderBtn" data-order>
+        <a class="order-btn" id="orderBtn" data-order target="_blank" rel="noopener">
           <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.6.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.4-.1Z"/></svg>
           <span id="orderLabel">ສັ່ງ 1 ຂວດ ທາງ WhatsApp</span>
-        </button>
+        </a>
       </div>
       <p class="order-note">ກົດແລ້ວ WhatsApp ຈະເປີດທັນທີ ສາມາດແຈ້ງທີ່ຢູ່ຈັດສົ່ງໃນແຊັດໄດ້ເລີຍ</p>
 
@@ -316,7 +317,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   </div>
 </main>
 
-<div class="bar" id="bar"><div><span>ລາຄາສິນຄ້າ</span><b id="bartotal">28,000</b></div><button type="button" data-order>ສັ່ງທາງ WhatsApp</button></div>
+<div class="bar" id="bar"><div><span>ລາຄາສິນຄ້າ</span><b id="bartotal">28,000</b></div><a class="bar-btn" id="barOrderBtn" data-order target="_blank" rel="noopener">ສັ່ງທາງ WhatsApp</a></div>
 
 <footer>
   <div class="wrap importer">
@@ -421,6 +422,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     document.getElementById("units").textContent = "ກີບ · " + itemText() + " · ບໍ່ລວມຄ່າສົ່ງ";
     document.getElementById("orderLabel").textContent = "ສັ່ງ " + (state.pack === 12 ? state.qty + " ແພັກ" : state.qty + " ຂວດ") + " ທາງ WhatsApp";
     layout();
+    updateOrderLinks();
   }
 
   function choose(pack) {
@@ -462,38 +464,64 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   /* delivery details: optional, remembered on this device */
   var F = { name: document.getElementById("fName"), phone: document.getElementById("fPhone"), addr: document.getElementById("fAddr") };
   try { var saved = JSON.parse(localStorage.getItem("sophanua-ship") || "{}"); Object.keys(F).forEach(function (k) { if (saved[k]) F[k].value = saved[k]; }); } catch (e) {}
+
+  function getWhatsAppUrl(text) {
+    var enc = encodeURIComponent(text);
+    var isAndroid = /Android/i.test(navigator.userAgent);
+    if (isAndroid) {
+      // Android Intent scheme bypasses in-app browser sandbox directly to WhatsApp package
+      var fallback = encodeURIComponent("https://api.whatsapp.com/send?phone=" + WHATSAPP + "&text=" + enc);
+      return "intent://send?phone=" + WHATSAPP + "&text=" + enc + "#Intent;scheme=whatsapp;package=com.whatsapp;S.browser_fallback_url=" + fallback + ";end";
+    }
+    // iOS and Desktop: Universal Link direct to WhatsApp
+    return "https://api.whatsapp.com/send?phone=" + WHATSAPP + "&text=" + enc;
+  }
+
+  function updateOrderLinks() {
+    var text = message();
+    var targetUrl = getWhatsAppUrl(text);
+    var orderBtn = document.getElementById("orderBtn");
+    if (orderBtn) orderBtn.href = targetUrl;
+    var barBtn = document.getElementById("barOrderBtn");
+    if (barBtn) barBtn.href = targetUrl;
+    var headBtn = document.getElementById("headOrderBtn");
+    if (headBtn) headBtn.href = targetUrl;
+  }
+
   Object.keys(F).forEach(function (k) {
     F[k].addEventListener("input", function () {
       try { var v = {}; Object.keys(F).forEach(function (j) { v[j] = F[j].value; }); localStorage.setItem("sophanua-ship", JSON.stringify(v)); } catch (e) {}
+      updateOrderLinks();
     });
   });
 
-  var busy = false;
-  function order() {
-    if (busy) return;
-    busy = true; setTimeout(function () { busy = false; }, 2500);
-    var text = message(), url = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text);
-    // phones: jump straight into the WhatsApp app; if it is not installed, fall back to wa.me
-    if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-      var app = "whatsapp://send?phone=" + WHATSAPP + "&text=" + encodeURIComponent(text);
-      var left = false, onHide = function () { left = true; };
-      document.addEventListener("visibilitychange", onHide, { once: true });
-      location.href = app;
-      setTimeout(function () { if (!left && !document.hidden) location.href = url; }, 1500);
-    } else {
-      var a = document.createElement("a"); a.href = url; a.target = "_blank"; a.rel = "noopener";
-      document.body.appendChild(a); a.click(); a.remove();
-    }
-    var wrap = document.getElementById("orderWrap");
-    wrap.innerHTML = '<div class="done" role="status"><h3>ສົ່ງຄຳສັ່ງຊື້ໄປ WhatsApp ແລ້ວ</h3>' +
-      '<pre></pre><p class="small">ກົດສົ່ງໃນ WhatsApp ຮ້ານຈະຕອບພາຍໃນ 1 ຊົ່ວໂມງ</p>' +
-      '<div class="acts"><a target="_blank" rel="noopener">ເປີດ WhatsApp ອີກຄັ້ງ</a><button type="button">ປ່ຽນຄຳສັ່ງຊື້</button></div></div>';
-    wrap.querySelector("pre").textContent = text;
-    wrap.querySelector("a").href = url;
-    wrap.querySelector("button").addEventListener("click", function () { location.reload(); });
-    wrap.querySelector(".done").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+  function handleOrderClick() {
+    var text = message();
+    var targetUrl = getWhatsAppUrl(text);
+    var webUrl = "https://api.whatsapp.com/send?phone=" + WHATSAPP + "&text=" + encodeURIComponent(text);
+
+    // Let the native anchor navigation open WhatsApp, then display the done confirmation card:
+    setTimeout(function () {
+      var wrap = document.getElementById("orderWrap");
+      if (!wrap) return;
+      wrap.innerHTML = '<div class="done" role="status"><h3>ສົ່ງຄຳສັ່ງຊື້ໄປ WhatsApp ແລ້ວ</h3>' +
+        '<pre></pre><p class="small">ກົດສົ່ງໃນ WhatsApp ຮ້ານຈະຕອບພາຍໃນ 1 ຊົ່ວໂມງ</p>' +
+        '<div class="acts">' +
+        '<a id="retryApp" target="_blank" rel="noopener">ເປີດ WhatsApp ອີກຄັ້ງ</a>' +
+        '<a id="retryWeb" target="_blank" rel="noopener">ເປີດຜ່ານເວັບ</a>' +
+        '<button type="button" id="retryReset">ປ່ຽນຄຳສັ່ງຊື້</button>' +
+        '</div></div>';
+      wrap.querySelector("pre").textContent = text;
+      var retryApp = wrap.querySelector("#retryApp");
+      if (retryApp) retryApp.href = targetUrl;
+      var retryWeb = wrap.querySelector("#retryWeb");
+      if (retryWeb) retryWeb.href = webUrl;
+      var retryReset = wrap.querySelector("#retryReset");
+      if (retryReset) retryReset.addEventListener("click", function () { location.reload(); });
+      wrap.querySelector(".done").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+    }, 150);
   }
-  document.querySelectorAll("[data-order]").forEach(function (b) { b.addEventListener("click", order); });
+  document.querySelectorAll("[data-order]").forEach(function (b) { b.addEventListener("click", handleOrderClick); });
 
   still(render);
 })();

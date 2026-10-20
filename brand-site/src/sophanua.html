@@ -545,8 +545,12 @@ footer .giant { font: 900 clamp(4.4rem, 21.5vw, 19.5rem)/.78 var(--wordmark); te
       "ເບີໂທ: " + phone + "\n" +
       "ແຂວງ: " + sel.value + "\n" +
       "ຈຳນວນ: " + (document.getElementById("f-qty").value || "1") + " ຂວດ";
-    document.getElementById("msg").textContent = text;
-    document.getElementById("wa").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text);
+    var enc = encodeURIComponent(text);
+    var isAndroid = /Android/i.test(navigator.userAgent);
+    var waUrl = isAndroid
+      ? "intent://send?phone=" + WHATSAPP + "&text=" + enc + "#Intent;scheme=whatsapp;package=com.whatsapp;S.browser_fallback_url=" + encodeURIComponent("https://api.whatsapp.com/send?phone=" + WHATSAPP + "&text=" + enc) + ";end"
+      : "https://api.whatsapp.com/send?phone=" + WHATSAPP + "&text=" + enc;
+    document.getElementById("wa").href = waUrl;
     document.getElementById("out").hidden = false;
   });
   document.getElementById("copy").addEventListener("click", function () {
