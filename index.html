@@ -147,13 +147,23 @@ main .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9
 .order-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
 .order-btn svg { flex: none; }
 .order-btn:disabled { opacity: .6; cursor: progress; transform: none; }
+.ship { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 16px 20px 18px; border-radius: 20px; border: 1px solid var(--line); }
+.ship-title { grid-column: 1 / -1; font-weight: 600; }
+.ship label { display: grid; gap: 6px; font-size: .9rem; color: var(--husk); }
+.ship .wide, .ship-err { grid-column: 1 / -1; }
+.ship input, .ship textarea { width: 100%; box-sizing: border-box; min-height: 48px; padding: 10px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--hearth); color: var(--rice); font: 400 1rem/1.6 var(--body); resize: vertical; }
+.ship input::placeholder, .ship textarea::placeholder { color: color-mix(in srgb, var(--husk) 60%, transparent); }
+.ship input:focus, .ship textarea:focus { outline: none; border-color: var(--gold); }
+.ship [aria-invalid="true"] { border-color: #e5533d; }
+.ship-err { margin: 0; color: #ff8a75; font-size: .9rem; }
+@media (max-width: 480px) { .ship { grid-template-columns: minmax(0, 1fr); } }
 .order-note { text-align: center; font-size: .9rem; color: var(--husk); margin-top: -8px; }
 
 .trust { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .trust div { display: grid; gap: 2px; padding: 14px 16px; border-radius: 16px; background: var(--hearth); border: 1px solid var(--line); }
 .trust b { font-weight: 600; font-size: .98rem; }
 .trust span { font-size: .88rem; color: var(--husk); }
-.trust-note { grid-column: 1 / -1; font-size: .85rem; color: var(--husk); }
+.trust div:last-child:nth-child(odd) { grid-column: 1 / -1; }
 
 .done { display: grid; gap: 12px; padding: 22px; border-radius: 20px; border: 1.5px solid #25d366; background: color-mix(in srgb, #25d366 8%, var(--hearth)); }
 .done h3 { font-size: 1.25rem; }
@@ -170,6 +180,13 @@ main .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9
 /* phones */
 .bar { display: none; }
 footer { border-top: 1px solid var(--line); color: var(--husk); font-size: .9rem; }
+footer .wrap.importer { justify-content: flex-start; align-items: center; gap: 14px; }
+footer .brandnote { margin-left: auto; display: grid; justify-items: end; text-align: right; gap: 2px; }
+@media (max-width: 640px) { footer .brandnote { margin-left: 58px; justify-items: start; text-align: left; } }
+footer .importer img { flex: none; }
+footer .importer div { display: grid; gap: 2px; }
+footer .importer .lbl { font-size: .8rem; }
+footer .importer b { font: 700 .95rem/1.3 "Cinzel", Georgia, serif; letter-spacing: .1em; color: var(--gold-ink); }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; padding-block: 22px calc(22px + env(safe-area-inset-bottom, 0px)); }
 
 .shelf.still .btl { transition: none !important; } /* page load and resize: place bottles without animating */
@@ -187,7 +204,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   .panel h1 { font-size: 1.7rem; }
   .panel .lede { display: none; }
   .badge b { font-size: 2.2rem; }
-  .choices { order: 2; } .example { order: 3; } .row { order: 4; } .order-wrap { order: 5; } .order-note { order: 5; margin-top: -6px; } .trust { order: 6; } .facts { order: 7; } .info { order: 8; }
+  .choices { order: 2; } .example { order: 3; } .row { order: 4; } .ship { order: 5; } .order-wrap { order: 6; } .order-note { order: 6; margin-top: -6px; } .trust { order: 7; } .facts { order: 8; } .info { order: 9; }
   .bar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; align-items: center; justify-content: space-between; gap: 12px;
     padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
     background: color-mix(in srgb, var(--night) 90%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); }
@@ -247,18 +264,17 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <button class="choice" type="button" role="radio" aria-checked="true" data-pack="1" id="opt-1">
           <span class="dot" aria-hidden="true"></span>
           <h2>1 ຂວດ</h2>
-          <span class="price"><b id="p1">25,000</b><span>ກີບ</span></span>
+          <span class="price"><b id="p1">28,000</b><span>ກີບ</span></span>
           <span class="sub">350 ມລ. · ລອງຊີມ ຫຼື ໃຊ້ໃນເຮືອນ</span>
         </button>
         <button class="choice" type="button" role="radio" aria-checked="false" data-pack="12" id="opt-12" tabindex="-1">
-          <span class="save" id="save">ປະຢັດ 30,000 ກີບ</span>
+          <span class="save" id="save">ປະຢັດ 36,000 ກີບ</span>
           <span class="dot" aria-hidden="true"></span>
           <h2>1 ແພັກ · 12 ຂວດ</h2>
-          <span class="price"><b id="p12">270,000</b><span>ກີບ</span></span>
-          <span class="sub">ຕົກຂວດລະ <span id="perBottle">22,500</span> ກີບ · ຮ້ານຕຳ ຮ້ານຄ້າ</span>
+          <span class="price"><b id="p12">300,000</b><span>ກີບ</span></span>
+          <span class="sub">ຕົກຂວດລະ <span id="perBottle">25,000</span> ກີບ · ຮ້ານຕຳ ຮ້ານຄ້າ</span>
         </button>
       </div>
-      <p class="example"><i>ຕົວຢ່າງ</i> ລາຄານີ້ເປັນລາຄາຕົວຢ່າງ ລໍຖ້າລາຄາຈິງ</p>
 
       <div class="row">
         <div>
@@ -272,10 +288,18 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         </div>
         <div class="total">
           <div class="lbl">ລາຄາສິນຄ້າ</div>
-          <b id="total">25,000</b>
+          <b id="total">28,000</b>
           <div class="units" id="units">ກີບ · 1 ຂວດ</div>
         </div>
       </div>
+
+      <form class="ship" id="ship" novalidate autocomplete="on">
+        <div class="ship-title">ຂໍ້ມູນຈັດສົ່ງ</div>
+        <label>ຊື່<input id="fName" name="name" autocomplete="name" required></label>
+        <label>ເບີໂທ<input id="fPhone" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="020 XXXX XXXX" required></label>
+        <label class="wide">ທີ່ຢູ່ຈັດສົ່ງ<textarea id="fAddr" name="address" rows="2" autocomplete="street-address" placeholder="ບ້ານ, ເມືອງ, ແຂວງ" required></textarea></label>
+        <p class="ship-err" id="shipErr" role="alert" hidden></p>
+      </form>
 
       <div class="order-wrap" id="orderWrap">
         <button class="order-btn" type="button" id="orderBtn" data-order>
@@ -283,29 +307,31 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           <span id="orderLabel">ສັ່ງ 1 ຂວດ ທາງ WhatsApp</span>
         </button>
       </div>
-      <p class="order-note">ກົດແລ້ວ WhatsApp ຈະເປີດພ້ອມຂໍ້ຄວາມສັ່ງຊື້ ທີ່ຢູ່ຈັດສົ່ງແຈ້ງໃນແຊັດ</p>
+      <p class="order-note">ກົດແລ້ວ WhatsApp ຈະເປີດພ້ອມຂໍ້ຄວາມສັ່ງຊື້ ແລະ ຂໍ້ມູນຈັດສົ່ງ ພຽງກົດສົ່ງ</p>
 
       <div class="trust">
-        <div><b id="tSeller">ໂສພານົວ · ນະຄອນຫຼວງວຽງຈັນ</b><span>ຜູ້ຂາຍ</span></div>
+        <div><b id="tSeller" translate="no">MVM GROUP</b><span>ນຳເຂົ້າ ແລະ ຈັດຈຳໜ່າຍ</span></div>
         <div><b id="tPhone">020 5843 6321</b><span>WhatsApp · ຕອບພາຍໃນ 1 ຊົ່ວໂມງ</span></div>
-        <div><b>ສົ່ງທົ່ວປະເທດ</b><span id="tShip">ວຽງຈັນ 1–2 ມື້ · ຕ່າງແຂວງ 2–4 ມື້</span></div>
-        <div><b>ຈ່າຍປາຍທາງ ຫຼື BCEL One</b><span>ຄ່າສົ່ງແຈ້ງໃນແຊັດກ່ອນຢືນຢັນ</span></div>
-        <p class="trust-note">ຂໍ້ມູນໃນກ່ອງນີ້ເປັນຕົວຢ່າງ ລໍຖ້າຂໍ້ມູນຈິງຈາກຮ້ານ</p>
+        <div><b>ສົ່ງທົ່ວປະເທດ</b><span id="tShip">ວຽງຈັນ ພາຍໃນ 24 ຊົ່ວໂມງ · ຕ່າງແຂວງ 2–4 ມື້</span></div>
       </div>
     </div>
   </div>
 </main>
 
-<div class="bar" id="bar"><div><span>ລາຄາສິນຄ້າ</span><b id="bartotal">25,000</b></div><button type="button" data-order>ສັ່ງທາງ WhatsApp</button></div>
+<div class="bar" id="bar"><div><span>ລາຄາສິນຄ້າ</span><b id="bartotal">28,000</b></div><button type="button" data-order>ສັ່ງທາງ WhatsApp</button></div>
 
 <footer>
-  <div class="wrap"><span translate="no">ໂສພານົວ · SOPHANUA</span><span>ນ້ຳປາແດກປຸງລົດ · 350 ມລ.</span></div>
+  <div class="wrap importer">
+    <img src="media/mvm.webp" width="44" height="44" alt="MVM GROUP" loading="lazy">
+    <div><span class="lbl">ນຳເຂົ້າ ແລະ ຈັດຈຳໜ່າຍໂດຍ</span><b translate="no">MVM GROUP</b><span>ບໍລິສັດ ເອຶມວີເອັມ ທີ່ປຶກສາ ແລະ ການຄ້າສາກົນ (ຂາອອກ-ຂາເຂົ້າ) ຈຳກັດ</span></div>
+    <div class="brandnote"><span translate="no">ໂສພານົວ · SOPHANUA</span><span>ນ້ຳປາແດກປຸງລົດ · 350 ມລ.</span></div>
+  </div>
 </footer>
 
 <script>
 (function () {
   /* Shop settings. Prices are examples; set the real WhatsApp number in international form, e.g. "8562055555555". */
-  var PRICE = { 1: 25000, 12: 270000 };
+  var PRICE = { 1: 28000, 12: 300000 };
   var MAX = { 1: 24, 12: 10 };
   var WHATSAPP = "8562058436321"; // 020 58436321
 
@@ -422,11 +448,36 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   /* one tap: open WhatsApp with the order, then show what was sent */
   function message() {
-    return "ສະບາຍດີ ໂສພານົວ\nຂ້ອຍຢາກສັ່ງ: " + itemText() + "\nລາຄາສິນຄ້າ: " + fmt(PRICE[state.pack] * state.qty) + " ກີບ (ບໍ່ລວມຄ່າສົ່ງ)\nທີ່ຢູ່ຈັດສົ່ງ: ";
+    return "ສະບາຍດີ ໂສພານົວ\nຂ້ອຍຢາກສັ່ງ: " + itemText() + "\nລາຄາສິນຄ້າ: " + fmt(PRICE[state.pack] * state.qty) + " ກີບ (ບໍ່ລວມຄ່າສົ່ງ)" +
+      "\n\nຊື່: " + F.name.value.trim() + "\nເບີໂທ: " + F.phone.value.trim() + "\nທີ່ຢູ່ຈັດສົ່ງ: " + F.addr.value.trim();
+  }
+
+  /* delivery details: required before ordering, remembered on this device */
+  var F = { name: document.getElementById("fName"), phone: document.getElementById("fPhone"), addr: document.getElementById("fAddr") };
+  var shipErr = document.getElementById("shipErr");
+  try { var saved = JSON.parse(localStorage.getItem("sophanua-ship") || "{}"); Object.keys(F).forEach(function (k) { if (saved[k]) F[k].value = saved[k]; }); } catch (e) {}
+  Object.keys(F).forEach(function (k) {
+    F[k].addEventListener("input", function () {
+      F[k].removeAttribute("aria-invalid");
+      try { var v = {}; Object.keys(F).forEach(function (j) { v[j] = F[j].value; }); localStorage.setItem("sophanua-ship", JSON.stringify(v)); } catch (e) {}
+    });
+  });
+  function shipOk() {
+    var bad = [];
+    if (!F.name.value.trim()) bad.push(F.name);
+    if (F.phone.value.replace(/\D/g, "").length < 8) bad.push(F.phone);
+    if (!F.addr.value.trim()) bad.push(F.addr);
+    Object.keys(F).forEach(function (k) { if (bad.indexOf(F[k]) > -1) F[k].setAttribute("aria-invalid", "true"); else F[k].removeAttribute("aria-invalid"); });
+    if (!bad.length) { shipErr.hidden = true; return true; }
+    shipErr.textContent = "ກະລຸນາໃສ່ ຊື່, ເບີໂທ ແລະ ທີ່ຢູ່ຈັດສົ່ງ ກ່ອນສັ່ງ";
+    shipErr.hidden = false;
+    bad[0].scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+    bad[0].focus({ preventScroll: true });
+    return false;
   }
   var busy = false;
   function order() {
-    if (busy) return;
+    if (busy || !shipOk()) return;
     busy = true; setTimeout(function () { busy = false; }, 2500);
     var text = message(), url = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text);
     // phones: jump straight into the WhatsApp app; if it is not installed, fall back to wa.me
@@ -442,7 +493,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     }
     var wrap = document.getElementById("orderWrap");
     wrap.innerHTML = '<div class="done" role="status"><h3>ສົ່ງຄຳສັ່ງຊື້ໄປ WhatsApp ແລ້ວ</h3>' +
-      '<pre></pre><p class="small">ກົດສົ່ງໃນ WhatsApp ແລະ ແຈ້ງທີ່ຢູ່ຈັດສົ່ງ ຮ້ານຈະຕອບພາຍໃນ 1 ຊົ່ວໂມງ</p>' +
+      '<pre></pre><p class="small">ກົດສົ່ງໃນ WhatsApp ຮ້ານຈະຕອບພາຍໃນ 1 ຊົ່ວໂມງ</p>' +
       '<div class="acts"><a target="_blank" rel="noopener">ເປີດ WhatsApp ອີກຄັ້ງ</a><button type="button">ປ່ຽນຄຳສັ່ງຊື້</button></div></div>';
     wrap.querySelector("pre").textContent = text;
     wrap.querySelector("a").href = url;
