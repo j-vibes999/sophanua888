@@ -127,6 +127,16 @@ main .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9
 .total .lbl { color: var(--husk); font-size: .95rem; }
 .total b { display: block; font: 900 clamp(2.4rem, 4.4vw, 3.1rem)/1 var(--price); color: var(--gold-ink); font-variant-numeric: tabular-nums; }
 .total .units { color: var(--husk); font-size: .9rem; }
+/* phones: two balanced lines — quantity label + stepper, then price label + price */
+@media (max-width: 560px) {
+  .row { display: grid; grid-template-columns: minmax(0, 1fr); justify-content: stretch; gap: 14px; }
+  .row > div:first-child { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 12px; }
+  .row > div:first-child .qty-label { margin: 0; }
+  .row > div:first-child .max-note { grid-column: 1 / -1; }
+  .total { display: grid; grid-template-columns: 1fr auto; align-items: end; column-gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .total .lbl { text-align: left; align-self: center; }
+  .total .units { grid-column: 1 / -1; text-align: right; margin-top: 4px; }
+}
 
 .order-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 60px; border: 0; border-radius: 999px; padding: 14px 24px; background: #25d366; color: #062b14; font: 600 1.12rem/1.3 var(--body); cursor: pointer; transition: transform .2s var(--ease), filter .2s; text-align: center; text-decoration: none; box-sizing: border-box; }
 .order-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
@@ -168,7 +178,12 @@ main .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9
 footer { border-top: 1px solid var(--line); color: var(--husk); font-size: .9rem; }
 footer .wrap.importer { justify-content: flex-start; align-items: center; gap: 14px; }
 footer .brandnote { margin-left: auto; display: grid; justify-items: end; text-align: right; gap: 2px; }
-@media (max-width: 640px) { footer .brandnote { margin-left: 58px; justify-items: start; text-align: left; } }
+@media (max-width: 640px) {
+  footer .wrap.importer { align-items: flex-start; gap: 12px; }
+  footer .importer img { width: 40px; height: 40px; margin-top: 2px; }
+  footer .importer > div:not(.brandnote) { flex: 1 1 0; min-width: 0; }
+  footer .brandnote { flex-basis: 100%; margin-left: 0; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2px 12px; text-align: left; padding-top: 12px; border-top: 1px solid var(--line); font-size: .85rem; }
+}
 footer .importer img { flex: none; }
 footer .importer div { display: grid; gap: 2px; }
 footer .importer .lbl { font-size: .8rem; }
@@ -337,7 +352,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   var shelf = document.getElementById("shelf"), bottles = [];
   for (var k = 0; k < 12; k++) {
     var im = document.createElement("img");
-    im.className = "btl"; im.src = "media/bottle.webp"; im.alt = ""; im.decoding = "async"; im.width = 578; im.height = 2000;
+    im.className = "btl"; im.src = "media/bottle.webp?v=studio3"; im.alt = ""; im.decoding = "async"; im.width = 599; im.height = 2000;
     shelf.appendChild(im); bottles.push(im);
   }
   var state = { pack: 1, qty: 1 };
@@ -351,7 +366,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   }
   function layout() {
     var W = shelf.clientWidth, H = shelf.clientHeight;
-    var bh = H * .68, bw = bh * 578 / 2000;
+    var bh = H * .68, bw = bh * 599 / 2000;
     // pack spots: 3 rows of 4, back rows a touch smaller, higher and dimmer
     var sF = Math.min(.68, (W / 4.6) / bw), gap = bw * sF * 1.08;
     var rows = [{ s: sF * .84, y: -H * .12, b: .8 }, { s: sF * .92, y: -H * .06, b: .9 }, { s: sF, y: 0, b: 1 }];

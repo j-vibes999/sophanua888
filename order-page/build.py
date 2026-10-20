@@ -25,7 +25,7 @@ head = '''<!doctype html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 ''' + fonts + '''
-<link rel="preload" as="image" href="media/bottle.webp" fetchpriority="high">
+<link rel="preload" as="image" href="media/bottle.webp?v=studio3" fetchpriority="high">
 '''
 end = body.index('</style>') + len('</style>')
 html = head + body[:end] + '\n</head>\n<body>\n' + body[end:] + '\n</body>\n</html>\n'
