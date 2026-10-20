@@ -1,0 +1,22 @@
+# build output (regenerate with build.py)
+dist/
+
+# tooling caches
+.wrangler/
+.vercel/
+node_modules/
+.DS_Store
+
+# large media: keep on Google Drive, not in git
+*.mp4
+*.mov
+ad-video/clips/
+ad-video/shots/
+ad-video/edit/seg*/
+product-photos/
+
+# loose files in the root
+/image-*.jpg
+
+# the brand site needs its own film
+!brand-site/src/media/*.mp4

@@ -1,0 +1,438 @@
+<title>Sophanua Order</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Cinzel:wght@700&family=IBM+Plex+Mono:wght@500&family=Noto+Sans+Lao+Looped:wght@700;900&family=Noto+Sans+Lao:wght@400;600;900&display=swap">
+<style>
+/* Layout: one order counter under a warm lamp. Left, a stage that shows exactly what you are buying;
+   right, the choice, the total, why you can trust the seller, and one WhatsApp button. */
+:root {
+  --night: #110b07;
+  --hearth: #1a120d;
+  --ember: #241911;
+  --gold: #f0c23b;
+  --gold-ink: #f0c23b;
+  --chili: #c42a1f;
+  --rice: #f4ead8;
+  --husk: #b3a084;
+  --line: rgba(244, 234, 216, .11);
+  --lamp: rgba(240, 194, 59, .30);
+  --price: "Big Shoulders Display", Impact, sans-serif;
+  --display: "Noto Sans Lao Looped", "Noto Sans Lao", system-ui, sans-serif;
+  --body: "Noto Sans Lao", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --ease: cubic-bezier(.22, .8, .2, 1);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--night); color: var(--rice); font: 400 1.0625rem/1.8 var(--body); -webkit-font-smoothing: antialiased; overflow-x: clip; touch-action: manipulation; transition: background .4s, color .4s; }
+button { font: inherit; color: inherit; }
+p, h1, h2, h3 { margin: 0; }
+h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.4; text-wrap: balance; }
+:focus-visible { outline: 2px solid var(--gold-ink); outline-offset: 3px; border-radius: 10px; }
+.wrap { width: 100%; max-width: 1240px; margin-inline: auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.small { font-size: .92rem; color: var(--husk); }
+
+/* header */
+header { border-bottom: 1px solid var(--line); }
+header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; }
+.logo { display: grid; line-height: 1; text-decoration: none; min-height: 44px; align-content: center; }
+.logo b { font: 900 1.55rem/1.3 var(--display); color: var(--gold-ink); }
+.logo span { font: 500 .72rem/1 var(--mono); letter-spacing: .26em; color: var(--husk); }
+/* importer mark (MVM Group) sits left of the brand, split by a hairline */
+.brandrow { display: flex; align-items: center; gap: 14px; }
+.mvm-mark { display: flex; align-items: center; gap: 10px; }
+.mvm { display: block; width: 52px; height: 52px; flex: none; }
+/* i only breaks the line on phones */
+.mvm-mark span i { font-style: normal; }
+.mvm-mark span { font: 700 .82rem/1.15 "Cinzel", Georgia, serif; letter-spacing: .12em; color: var(--gold-ink); white-space: nowrap; }
+@media (max-width: 480px) { .mvm { width: 44px; height: 44px; } .mvm-mark { gap: 7px; } .mvm-mark span { font-size: .7rem; } .mvm-mark span i { display: block; } .brandrow { gap: 11px; } }
+.brandrow .sep { width: 1px; align-self: stretch; margin-block: 6px; background: color-mix(in srgb, var(--gold) 30%, transparent); }
+.head-right { display: flex; align-items: center; gap: 10px; }
+.head-cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: none; color: var(--rice); font-size: .95rem; cursor: pointer; }
+.head-cta:hover { border-color: var(--gold-ink); }
+
+/* cap band (kept from the brand site) */
+.band { background: var(--chili); overflow: hidden; }
+.band-track { display: flex; width: max-content; gap: 2.6rem; padding-block: 12px; animation: slide 42s linear infinite; }
+.band-track { align-items: center; }
+/* cap-style lettering: loopless Lao, slanted like the bottle's shrink band, English as an outline */
+.band-track span { display: inline-flex; align-items: center; gap: 1rem; white-space: nowrap; }
+.band-track b { display: inline-block; font: 900 1.45rem/1.3 var(--body); color: #fff; transform: skewX(-12deg); }
+.band-track i { font: 900 1.6rem/1 var(--price); font-style: normal; letter-spacing: .1em; color: transparent; -webkit-text-stroke: 1.2px #fff; }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* main grid */
+main .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(28px, 5vw, 72px); align-items: start; padding-block: clamp(28px, 5vw, 56px) clamp(48px, 7vw, 96px); }
+.left { position: sticky; top: 24px; display: grid; gap: 16px; }
+
+/* stage */
+.stage { position: relative; border-radius: 28px; overflow: hidden; isolation: isolate; border: 1px solid var(--line);
+  background: radial-gradient(ellipse at 50% -10%, var(--lamp), transparent 70%), var(--hearth); transition: background .4s; }
+.shelf { position: relative; height: clamp(360px, 56svh, 560px); }
+.btl {
+  position: absolute; left: 0; bottom: 24%; height: 68%; width: auto;
+  transform-origin: 50% 100%;
+  transform: translate(var(--x, 0px), var(--y, 0px)) scale(var(--s, 1));
+  opacity: var(--o, 0); filter: brightness(var(--b, 1));
+  /* solid bottles only: opacity snaps (no half-transparent ghosts), position glides */
+  transition: transform .85s cubic-bezier(.45, 0, .15, 1) var(--d, 0ms), opacity 0s linear var(--od, 0ms), filter .85s cubic-bezier(.45, 0, .15, 1) var(--d, 0ms);
+  will-change: transform; pointer-events: none; z-index: 2;
+}
+.badge { position: absolute; left: 20px; top: 16px; display: grid; line-height: 1; }
+.badge b { font: 900 clamp(2.6rem, 5vw, 3.6rem)/1 var(--price); color: var(--gold-ink); }
+.badge span { font: 600 1.05rem/1.4 var(--body); color: var(--rice); }
+/* volume pill: small, quiet, top-right of the stage */
+.vol { position: absolute; right: 14px; top: 16px; z-index: 30; display: inline-flex; align-items: baseline; gap: 6px; padding: 4px 11px 5px; border-radius: 999px;
+  background: color-mix(in srgb, var(--hearth) 75%, transparent); border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.vol small { font: 500 .72rem/1.4 var(--body); color: color-mix(in srgb, var(--rice) 70%, transparent); }
+.vol b { font: 800 1rem/1.2 var(--price); color: var(--gold-ink); letter-spacing: .02em; }
+.vol b i { font-style: normal; font-size: .8rem; margin-left: 2px; color: var(--rice); }
+
+.facts { list-style: none; margin: 0; padding: 18px 22px; border-radius: 20px; background: var(--hearth); border: 1px solid var(--line); display: grid; gap: 8px; }
+.facts li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; color: var(--husk); }
+.facts li::before { content: "✓"; color: var(--gold-ink); font-weight: 600; }
+.facts b { color: var(--rice); font-weight: 600; }
+
+/* order panel */
+.panel { display: grid; gap: 22px; }
+.panel h1 { font-size: clamp(2.1rem, 4vw, 3rem); font-weight: 900; color: var(--rice); line-height: 1.3; }
+.panel .lede { color: var(--husk); margin-top: 4px; }
+.choices { display: grid; gap: 14px; }
+.choice { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px 16px; align-items: center; text-align: left; width: 100%; padding: 18px 20px; border-radius: 20px; background: var(--hearth); border: 1.5px solid var(--line); cursor: pointer; transition: border-color .25s, background .25s; }
+.choice:hover { border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
+.choice[aria-checked="true"] { border-color: var(--gold); background: color-mix(in srgb, var(--gold) 9%, var(--hearth)); }
+.choice .dot { grid-row: span 2; width: 24px; height: 24px; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--rice) 35%, transparent); display: grid; place-items: center; }
+.choice .dot::after { content: ""; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); transform: scale(0); transition: transform .3s var(--ease); }
+.choice[aria-checked="true"] .dot { border-color: var(--gold); }
+.choice[aria-checked="true"] .dot::after { transform: scale(1); }
+.choice h2 { font-size: 1.3rem; }
+.choice .sub { color: var(--husk); font-size: .95rem; grid-column: 2; }
+.choice .price { grid-row: span 2; text-align: right; display: grid; }
+.choice .price b { font: 900 1.9rem/1 var(--price); color: var(--rice); }
+.choice .price span { font-size: .85rem; color: var(--husk); }
+.save { position: absolute; top: -12px; right: 18px; font: 600 .85rem/1 var(--body); color: #1a1006; background: var(--gold); border-radius: 999px; padding: 6px 10px; }
+.example { display: inline-flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--husk); }
+.example i { font-style: normal; font-weight: 600; color: #1a1006; background: var(--husk); border-radius: 6px; padding: 2px 8px; }
+
+.row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 16px 20px; border-radius: 20px; border: 1px solid var(--line); }
+.qty-label { font-size: .95rem; color: var(--husk); margin-bottom: 6px; }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; padding: 4px; }
+.stepper button { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--ember); font-size: 1.3rem; cursor: pointer; }
+.stepper button:disabled { opacity: .35; cursor: not-allowed; }
+.stepper output { min-width: 56px; text-align: center; font: 900 1.6rem/1 var(--price); }
+.max-note { font-size: .88rem; color: var(--husk); margin-top: 6px; }
+.total { text-align: right; }
+.total .lbl { color: var(--husk); font-size: .95rem; }
+.total b { display: block; font: 900 clamp(2.4rem, 4.4vw, 3.1rem)/1 var(--price); color: var(--gold-ink); font-variant-numeric: tabular-nums; }
+.total .units { color: var(--husk); font-size: .9rem; }
+
+.order-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 60px; border: 0; border-radius: 999px; padding: 14px 24px; background: #25d366; color: #062b14; font: 600 1.12rem/1.3 var(--body); cursor: pointer; transition: transform .2s var(--ease), filter .2s; text-align: center; }
+.order-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.order-btn svg { flex: none; }
+.order-btn:disabled { opacity: .6; cursor: progress; transform: none; }
+.order-note { text-align: center; font-size: .9rem; color: var(--husk); margin-top: -8px; }
+
+.trust { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.trust div { display: grid; gap: 2px; padding: 14px 16px; border-radius: 16px; background: var(--hearth); border: 1px solid var(--line); }
+.trust b { font-weight: 600; font-size: .98rem; }
+.trust span { font-size: .88rem; color: var(--husk); }
+.trust-note { grid-column: 1 / -1; font-size: .85rem; color: var(--husk); }
+
+.done { display: grid; gap: 12px; padding: 22px; border-radius: 20px; border: 1.5px solid #25d366; background: color-mix(in srgb, #25d366 8%, var(--hearth)); }
+.done h3 { font-size: 1.25rem; }
+.done pre { margin: 0; white-space: pre-wrap; font: 400 .98rem/1.8 var(--body); color: var(--husk); }
+.done .acts { display: flex; flex-wrap: wrap; gap: 10px; }
+.done a, .done button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--hearth); color: var(--rice); text-decoration: none; cursor: pointer; font-size: .95rem; }
+
+.info { display: grid; gap: 0; border-radius: 20px; border: 1px solid var(--line); overflow: hidden; }
+.info div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 12px; padding: 12px 18px; border-top: 1px solid var(--line); }
+.info div:first-child { border-top: 0; }
+.info dt { color: var(--husk); font-size: .92rem; }
+.info dd { margin: 0; }
+
+/* phones */
+.bar { display: none; }
+footer { border-top: 1px solid var(--line); color: var(--husk); font-size: .9rem; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; padding-block: 22px calc(22px + env(safe-area-inset-bottom, 0px)); }
+
+.shelf.still .btl { transition: none !important; } /* page load and resize: place bottles without animating */
+@media (prefers-reduced-motion: reduce) {
+  .band-track { animation: none; }
+  .btl { transition: none !important; }
+}
+@media (max-width: 900px) {
+  main .wrap { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-top: 18px; }
+  .left, .panel { display: contents; }
+  .panel > .intro { order: 0; }
+  /* first screen holds the stage and both choices, so a tap shows its effect right away */
+  .stage { order: 1; }
+  .shelf { height: clamp(200px, 27svh, 250px); }
+  .panel h1 { font-size: 1.7rem; }
+  .panel .lede { display: none; }
+  .badge b { font-size: 2.2rem; }
+  .choices { order: 2; } .example { order: 3; } .row { order: 4; } .order-wrap { order: 5; } .order-note { order: 5; margin-top: -6px; } .trust { order: 6; } .facts { order: 7; } .info { order: 8; }
+  .bar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    background: color-mix(in srgb, var(--night) 90%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); }
+  .bar b { font: 900 1.7rem/1 var(--price); color: var(--gold-ink); }
+  .bar span { display: block; color: var(--husk); font-size: .82rem; }
+  .bar button { border: 0; min-height: 48px; background: #25d366; color: #062b14; font-weight: 600; border-radius: 999px; padding: 0 20px; cursor: pointer; }
+  footer { padding-bottom: 80px; }
+  .head-cta { display: none; }
+}
+@media (max-width: 480px) {
+  .choice { padding: 16px; }
+  .choice .price b { font-size: 1.6rem; }
+  .trust { grid-template-columns: minmax(0, 1fr); }
+  .info div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="brandrow"><div class="mvm-mark" translate="no"><img class="mvm" src="media/mvm.webp" width="52" height="52" alt=""><span>MVM <i>GROUP</i></span></div><i class="sep" aria-hidden="true"></i>
+    <a class="logo" href="#top" translate="no"><b>ໂສພານົວ</b><span>SOPHANUA</span></a></div>
+    <div class="head-right">
+      <button class="head-cta" type="button" data-order>ສັ່ງທາງ WhatsApp</button>
+    </div>
+  </div>
+</header>
+
+<div class="band" aria-hidden="true"><div class="band-track" id="band"></div></div>
+
+<main id="top">
+  <div class="wrap">
+    <div class="left">
+      <section class="stage" id="stage" aria-label="ສິນຄ້າທີ່ເລືອກ">
+        <div class="shelf" id="shelf">
+        </div>
+        <div class="badge" aria-live="polite"><b id="badgeN">1</b><span id="badgeT">ຂວດ</span></div>
+        <div class="vol"><small>ຂວດລະ</small><b>350<i>ml</i></b></div>
+      </section>
+      <ul class="facts" id="facts"></ul>
+      <dl class="info">
+        <div><dt>ສິນຄ້າ</dt><dd>ນ້ຳປາແດກປຸງລົດ ໂສພານົວ</dd></div>
+        <div><dt>ຂະໜາດ</dt><dd>350 ມລ. ຕໍ່ຂວດ</dd></div>
+        <div><dt>ການເກັບຮັກສາ</dt><dd>ປິດຝາໃຫ້ແໜ້ນ ເກັບໃນບ່ອນເຢັນ ບໍ່ຖືກແດດ</dd></div>
+      </dl>
+    </div>
+
+    <div class="panel">
+      <div class="intro">
+        <h1>ສັ່ງໂສພານົວ</h1>
+        <p class="lede">ນ້ຳປາແດກປຸງລົດ ຫອມ ນົວ ເຂັ້ມຂຸ້ນ ເລືອກຂະໜາດ ແລ້ວສັ່ງຜ່ານ WhatsApp ໄດ້ເລີຍ</p>
+      </div>
+
+      <div class="choices" role="radiogroup" aria-label="ເລືອກຂະໜາດ">
+        <button class="choice" type="button" role="radio" aria-checked="true" data-pack="1" id="opt-1">
+          <span class="dot" aria-hidden="true"></span>
+          <h2>1 ຂວດ</h2>
+          <span class="price"><b id="p1">25,000</b><span>ກີບ</span></span>
+          <span class="sub">350 ມລ. · ລອງຊີມ ຫຼື ໃຊ້ໃນເຮືອນ</span>
+        </button>
+        <button class="choice" type="button" role="radio" aria-checked="false" data-pack="12" id="opt-12" tabindex="-1">
+          <span class="save" id="save">ປະຢັດ 30,000 ກີບ</span>
+          <span class="dot" aria-hidden="true"></span>
+          <h2>1 ແພັກ · 12 ຂວດ</h2>
+          <span class="price"><b id="p12">270,000</b><span>ກີບ</span></span>
+          <span class="sub">ຕົກຂວດລະ <span id="perBottle">22,500</span> ກີບ · ຮ້ານຕຳ ຮ້ານຄ້າ</span>
+        </button>
+      </div>
+      <p class="example"><i>ຕົວຢ່າງ</i> ລາຄານີ້ເປັນລາຄາຕົວຢ່າງ ລໍຖ້າລາຄາຈິງ</p>
+
+      <div class="row">
+        <div>
+          <div class="qty-label" id="qtyLabel">ຈຳນວນຂວດ</div>
+          <div class="stepper">
+            <button type="button" id="minus" aria-label="ຫຼຸດຈຳນວນ">−</button>
+            <output id="qty" aria-labelledby="qtyLabel">1</output>
+            <button type="button" id="plus" aria-label="ເພີ່ມຈຳນວນ">+</button>
+          </div>
+          <div class="max-note" id="maxNote" hidden>ສັ່ງຫຼາຍກວ່ານີ້ ທັກແຊັດເພື່ອຂໍລາຄາສົ່ງ</div>
+        </div>
+        <div class="total">
+          <div class="lbl">ລາຄາສິນຄ້າ</div>
+          <b id="total">25,000</b>
+          <div class="units" id="units">ກີບ · 1 ຂວດ</div>
+        </div>
+      </div>
+
+      <div class="order-wrap" id="orderWrap">
+        <button class="order-btn" type="button" id="orderBtn" data-order>
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.6.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.4-.1Z"/></svg>
+          <span id="orderLabel">ສັ່ງ 1 ຂວດ ທາງ WhatsApp</span>
+        </button>
+      </div>
+      <p class="order-note">ກົດແລ້ວ WhatsApp ຈະເປີດພ້ອມຂໍ້ຄວາມສັ່ງຊື້ ທີ່ຢູ່ຈັດສົ່ງແຈ້ງໃນແຊັດ</p>
+
+      <div class="trust">
+        <div><b id="tSeller">ໂສພານົວ · ນະຄອນຫຼວງວຽງຈັນ</b><span>ຜູ້ຂາຍ</span></div>
+        <div><b id="tPhone">020 5843 6321</b><span>WhatsApp · ຕອບພາຍໃນ 1 ຊົ່ວໂມງ</span></div>
+        <div><b>ສົ່ງທົ່ວປະເທດ</b><span id="tShip">ວຽງຈັນ 1–2 ມື້ · ຕ່າງແຂວງ 2–4 ມື້</span></div>
+        <div><b>ຈ່າຍປາຍທາງ ຫຼື BCEL One</b><span>ຄ່າສົ່ງແຈ້ງໃນແຊັດກ່ອນຢືນຢັນ</span></div>
+        <p class="trust-note">ຂໍ້ມູນໃນກ່ອງນີ້ເປັນຕົວຢ່າງ ລໍຖ້າຂໍ້ມູນຈິງຈາກຮ້ານ</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="bar" id="bar"><div><span>ລາຄາສິນຄ້າ</span><b id="bartotal">25,000</b></div><button type="button" data-order>ສັ່ງທາງ WhatsApp</button></div>
+
+<footer>
+  <div class="wrap"><span translate="no">ໂສພານົວ · SOPHANUA</span><span>ນ້ຳປາແດກປຸງລົດ · 350 ມລ.</span></div>
+</footer>
+
+<script>
+(function () {
+  /* Shop settings. Prices are examples; set the real WhatsApp number in international form, e.g. "8562055555555". */
+  var PRICE = { 1: 25000, 12: 270000 };
+  var MAX = { 1: 24, 12: 10 };
+  var WHATSAPP = "8562058436321"; // 020 58436321
+
+  function fmt(n) { return Math.round(n).toLocaleString("en-US"); }
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var band = document.getElementById("band");
+  for (var i = 0; i < 14; i++) { var s = document.createElement("span"); s.innerHTML = "<b>ໂສພານົວ</b><i>SOPHANUA</i>"; band.appendChild(s); }
+
+  document.getElementById("p1").textContent = fmt(PRICE[1]);
+  document.getElementById("p12").textContent = fmt(PRICE[12]);
+  document.getElementById("perBottle").textContent = fmt(PRICE[12] / 12);
+  var saving = PRICE[1] * 12 - PRICE[12];
+  if (saving > 0) document.getElementById("save").textContent = "ປະຢັດ " + fmt(saving) + " ກີບ"; else document.getElementById("save").hidden = true;
+
+  var FACTS = {
+    1: ["<b>1 ຂວດ</b> · ນ້ຳປາແດກປຸງລົດ 350 ມລ.", "ເໝາະສຳລັບລອງຊີມ ຫຼື ໃຊ້ໃນຄົວເຮືອນ", "ຕຳໝາກຫຸ່ງໄດ້ຫຼາຍຄົກ"],
+    12: ["<b>12 ຂວດ</b> ໃນແພັກດຽວ", "ເໝາະສຳລັບຮ້ານຕຳ ຮ້ານຄ້າ ແລະ ຄອບຄົວໃຫຍ່", "ຕົກຂວດລະ " + fmt(PRICE[12] / 12) + " ກີບ ຖືກກວ່າຊື້ແຍກ"]
+  };
+
+  /* twelve bottles; layout decides who shows */
+  var shelf = document.getElementById("shelf"), bottles = [];
+  for (var k = 0; k < 12; k++) {
+    var im = document.createElement("img");
+    im.className = "btl"; im.src = "media/bottle.webp"; im.alt = ""; im.decoding = "async"; im.width = 578; im.height = 2000;
+    shelf.appendChild(im); bottles.push(im);
+  }
+  var state = { pack: 1, qty: 1 };
+  var HERO = 9; // a front-row bottle
+
+  function set(b, x, y, sc, o, br, d, od, z) {
+    b.style.setProperty("--x", x + "px"); b.style.setProperty("--y", y + "px");
+    b.style.setProperty("--s", sc); b.style.setProperty("--o", o);
+    b.style.setProperty("--b", br); b.style.setProperty("--d", d + "ms"); b.style.setProperty("--od", od + "ms");
+    b.style.zIndex = z;
+  }
+  function layout() {
+    var W = shelf.clientWidth, H = shelf.clientHeight;
+    var bh = H * .68, bw = bh * 578 / 2000;
+    // pack spots: 3 rows of 4, back rows a touch smaller, higher and dimmer
+    var sF = Math.min(.68, (W / 4.6) / bw), gap = bw * sF * 1.08;
+    var rows = [{ s: sF * .84, y: -H * .12, b: .8 }, { s: sF * .92, y: -H * .06, b: .9 }, { s: sF, y: 0, b: 1 }];
+    function spot(i) {
+      var r = Math.floor(i / 4), c = i % 4, row = rows[r], g = gap * (row.s / sF);
+      return { x: W / 2 + (c - 1.5) * g - bw / 2, y: row.y, s: row.s, b: row.b, z: 2 + r };
+    }
+    // single bottle: centred with equal room above and below (bottles stand at bottom 24%, 68% tall)
+    var cx = W / 2 - bw / 2, cy = H * .08;
+    bottles.forEach(function (b, i) {
+      var p = spot(i);
+      if (i === HERO) {
+        // the hero always stays on top, so the others can hide exactly behind it
+        if (state.pack === 1) set(b, cx, cy, 1, 1, 1, 0, 0, 20);
+        else set(b, p.x, p.y, p.s, 1, p.b, 0, 0, 20);
+        return;
+      }
+      // fan order: inner columns and front row first, so the pack opens outward from the hero
+      var c = i % 4, r = Math.floor(i / 4), rank = (Math.abs(c - 1.5) > 1 ? 1 : 0) + (2 - r);
+      if (state.pack === 1) {
+        // slide back behind the hero, switch off only once fully hidden
+        var d = (3 - rank) * 35;
+        set(b, cx, cy, 1, 0, 1, d, d + 850, p.z);
+      } else {
+        // switch on while hidden behind the hero, then fan out to the spot
+        set(b, p.x, p.y, p.s, 1, p.b, 60 + rank * 70, 0, p.z);
+      }
+    });
+  }
+
+  function itemText() {
+    return state.pack === 12 ? state.qty + " ແພັກ (" + state.qty * 12 + " ຂວດ)" : state.qty + " ຂວດ";
+  }
+  function render() {
+    var total = PRICE[state.pack] * state.qty, n = state.pack * state.qty;
+    document.querySelectorAll(".choice").forEach(function (c) {
+      var on = +c.dataset.pack === state.pack;
+      c.setAttribute("aria-checked", String(on)); c.tabIndex = on ? 0 : -1;
+    });
+    document.getElementById("badgeN").textContent = n;
+    document.getElementById("badgeT").textContent = state.pack === 12 ? "ຂວດ · " + state.qty + " ແພັກ" : "ຂວດ";
+    document.getElementById("facts").innerHTML = FACTS[state.pack].map(function (t) { return "<li><span>" + t + "</span></li>"; }).join("");
+    document.getElementById("qtyLabel").textContent = state.pack === 12 ? "ຈຳນວນແພັກ" : "ຈຳນວນຂວດ";
+    document.getElementById("qty").textContent = state.qty;
+    document.getElementById("minus").disabled = state.qty <= 1;
+    document.getElementById("plus").disabled = state.qty >= MAX[state.pack];
+    document.getElementById("maxNote").hidden = state.qty < MAX[state.pack];
+    document.getElementById("total").textContent = fmt(total);
+    document.getElementById("bartotal").textContent = fmt(total);
+    document.getElementById("units").textContent = "ກີບ · " + itemText() + " · ບໍ່ລວມຄ່າສົ່ງ";
+    document.getElementById("orderLabel").textContent = "ສັ່ງ " + (state.pack === 12 ? state.qty + " ແພັກ" : state.qty + " ຂວດ") + " ທາງ WhatsApp";
+    layout();
+  }
+
+  function choose(pack) {
+    if (state.pack !== pack) { state.pack = pack; state.qty = 1; }
+    render();
+  }
+  document.querySelectorAll(".choice").forEach(function (c) {
+    c.addEventListener("click", function () { choose(+c.dataset.pack); });
+    c.addEventListener("keydown", function (e) {
+      if (["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].indexOf(e.key) > -1) {
+        e.preventDefault(); choose(state.pack === 1 ? 12 : 1); document.getElementById("opt-" + state.pack).focus();
+      }
+    });
+  });
+  document.getElementById("minus").addEventListener("click", function () { if (state.qty > 1) { state.qty--; render(); } });
+  document.getElementById("plus").addEventListener("click", function () { if (state.qty < MAX[state.pack]) { state.qty++; render(); } });
+  // place bottles instantly (no fly-in) on first paint and on resize; only taps animate
+  function still(fn) {
+    shelf.classList.add("still"); fn(); void shelf.offsetWidth;
+    requestAnimationFrame(function () { requestAnimationFrame(function () { shelf.classList.remove("still"); }); });
+  }
+  window.addEventListener("resize", function () { still(layout); });
+
+  /* one tap: open WhatsApp with the order, then show what was sent */
+  function message() {
+    return "ສະບາຍດີ ໂສພານົວ\nຂ້ອຍຢາກສັ່ງ: " + itemText() + "\nລາຄາສິນຄ້າ: " + fmt(PRICE[state.pack] * state.qty) + " ກີບ (ບໍ່ລວມຄ່າສົ່ງ)\nທີ່ຢູ່ຈັດສົ່ງ: ";
+  }
+  var busy = false;
+  function order() {
+    if (busy) return;
+    busy = true; setTimeout(function () { busy = false; }, 2500);
+    var text = message(), url = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text);
+    // phones: jump straight into the WhatsApp app; if it is not installed, fall back to wa.me
+    if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      var app = "whatsapp://send?phone=" + WHATSAPP + "&text=" + encodeURIComponent(text);
+      var left = false, onHide = function () { left = true; };
+      document.addEventListener("visibilitychange", onHide, { once: true });
+      location.href = app;
+      setTimeout(function () { if (!left && !document.hidden) location.href = url; }, 1500);
+    } else {
+      var a = document.createElement("a"); a.href = url; a.target = "_blank"; a.rel = "noopener";
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+    var wrap = document.getElementById("orderWrap");
+    wrap.innerHTML = '<div class="done" role="status"><h3>ສົ່ງຄຳສັ່ງຊື້ໄປ WhatsApp ແລ້ວ</h3>' +
+      '<pre></pre><p class="small">ກົດສົ່ງໃນ WhatsApp ແລະ ແຈ້ງທີ່ຢູ່ຈັດສົ່ງ ຮ້ານຈະຕອບພາຍໃນ 1 ຊົ່ວໂມງ</p>' +
+      '<div class="acts"><a target="_blank" rel="noopener">ເປີດ WhatsApp ອີກຄັ້ງ</a><button type="button">ປ່ຽນຄຳສັ່ງຊື້</button></div></div>';
+    wrap.querySelector("pre").textContent = text;
+    wrap.querySelector("a").href = url;
+    wrap.querySelector("button").addEventListener("click", function () { location.reload(); });
+    wrap.querySelector(".done").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+  }
+  document.querySelectorAll("[data-order]").forEach(function (b) { b.addEventListener("click", order); });
+
+  still(render);
+})();
+</script>
