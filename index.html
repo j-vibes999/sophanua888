@@ -293,12 +293,11 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         </div>
       </div>
 
-      <form class="ship" id="ship" novalidate autocomplete="on">
-        <div class="ship-title">ຂໍ້ມູນຈັດສົ່ງ</div>
-        <label>ຊື່<input id="fName" name="name" autocomplete="name" required></label>
-        <label>ເບີໂທ<input id="fPhone" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="020 XXXX XXXX" required></label>
-        <label class="wide">ທີ່ຢູ່ຈັດສົ່ງ<textarea id="fAddr" name="address" rows="2" autocomplete="street-address" placeholder="ບ້ານ, ເມືອງ, ແຂວງ" required></textarea></label>
-        <p class="ship-err" id="shipErr" role="alert" hidden></p>
+      <form class="ship" id="ship" autocomplete="on">
+        <div class="ship-title">ຂໍ້ມູນຈັດສົ່ງ <span class="small" style="font-weight:400; opacity:.85;">(ໃສ່ຕອນນີ້ ຫຼື ແຈ້ງໃນແຊັດກໍໄດ້)</span></div>
+        <label>ຊື່<input id="fName" name="name" autocomplete="name" placeholder="ຊື່ຂອງທ່ານ"></label>
+        <label>ເບີໂທ<input id="fPhone" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="020 XXXX XXXX"></label>
+        <label class="wide">ທີ່ຢູ່ຈັດສົ່ງ<textarea id="fAddr" name="address" rows="2" autocomplete="street-address" placeholder="ບ້ານ, ເມືອງ, ແຂວງ (ຫຼື ແຈ້ງໃນ WhatsApp)"></textarea></label>
       </form>
 
       <div class="order-wrap" id="orderWrap">
@@ -307,7 +306,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           <span id="orderLabel">ສັ່ງ 1 ຂວດ ທາງ WhatsApp</span>
         </button>
       </div>
-      <p class="order-note">ກົດແລ້ວ WhatsApp ຈະເປີດພ້ອມຂໍ້ຄວາມສັ່ງຊື້ ແລະ ຂໍ້ມູນຈັດສົ່ງ ພຽງກົດສົ່ງ</p>
+      <p class="order-note">ກົດແລ້ວ WhatsApp ຈະເປີດທັນທີ ສາມາດແຈ້ງທີ່ຢູ່ຈັດສົ່ງໃນແຊັດໄດ້ເລີຍ</p>
 
       <div class="trust">
         <div><b id="tSeller" translate="no">MVM GROUP</b><span>ນຳເຂົ້າ ແລະ ຈັດຈຳໜ່າຍ</span></div>
@@ -448,36 +447,31 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   /* one tap: open WhatsApp with the order, then show what was sent */
   function message() {
-    return "ສະບາຍດີ ໂສພານົວ\nຂ້ອຍຢາກສັ່ງ: " + itemText() + "\nລາຄາສິນຄ້າ: " + fmt(PRICE[state.pack] * state.qty) + " ກີບ (ບໍ່ລວມຄ່າສົ່ງ)" +
-      "\n\nຊື່: " + F.name.value.trim() + "\nເບີໂທ: " + F.phone.value.trim() + "\nທີ່ຢູ່ຈັດສົ່ງ: " + F.addr.value.trim();
+    var msg = "ສະບາຍດີ ໂສພານົວ\nຂ້ອຍຢາກສັ່ງ: " + itemText() + "\nລາຄາສິນຄ້າ: " + fmt(PRICE[state.pack] * state.qty) + " ກີບ (ບໍ່ລວມຄ່າສົ່ງ)";
+    var name = F.name.value.trim();
+    var phone = F.phone.value.trim();
+    var addr = F.addr.value.trim();
+    if (name || phone || addr) {
+      msg += "\n";
+      if (name) msg += "\nຊື່: " + name;
+      if (phone) msg += "\nເບີໂທ: " + phone;
+      if (addr) msg += "\nທີ່ຢູ່ຈັດສົ່ງ: " + addr;
+    }
+    return msg;
   }
 
-  /* delivery details: required before ordering, remembered on this device */
+  /* delivery details: optional, remembered on this device */
   var F = { name: document.getElementById("fName"), phone: document.getElementById("fPhone"), addr: document.getElementById("fAddr") };
-  var shipErr = document.getElementById("shipErr");
   try { var saved = JSON.parse(localStorage.getItem("sophanua-ship") || "{}"); Object.keys(F).forEach(function (k) { if (saved[k]) F[k].value = saved[k]; }); } catch (e) {}
   Object.keys(F).forEach(function (k) {
     F[k].addEventListener("input", function () {
-      F[k].removeAttribute("aria-invalid");
       try { var v = {}; Object.keys(F).forEach(function (j) { v[j] = F[j].value; }); localStorage.setItem("sophanua-ship", JSON.stringify(v)); } catch (e) {}
     });
   });
-  function shipOk() {
-    var bad = [];
-    if (!F.name.value.trim()) bad.push(F.name);
-    if (F.phone.value.replace(/\D/g, "").length < 8) bad.push(F.phone);
-    if (!F.addr.value.trim()) bad.push(F.addr);
-    Object.keys(F).forEach(function (k) { if (bad.indexOf(F[k]) > -1) F[k].setAttribute("aria-invalid", "true"); else F[k].removeAttribute("aria-invalid"); });
-    if (!bad.length) { shipErr.hidden = true; return true; }
-    shipErr.textContent = "ກະລຸນາໃສ່ ຊື່, ເບີໂທ ແລະ ທີ່ຢູ່ຈັດສົ່ງ ກ່ອນສັ່ງ";
-    shipErr.hidden = false;
-    bad[0].scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
-    bad[0].focus({ preventScroll: true });
-    return false;
-  }
+
   var busy = false;
   function order() {
-    if (busy || !shipOk()) return;
+    if (busy) return;
     busy = true; setTimeout(function () { busy = false; }, 2500);
     var text = message(), url = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text);
     // phones: jump straight into the WhatsApp app; if it is not installed, fall back to wa.me
