@@ -20,3 +20,4 @@ product-photos/
 
 # the brand site needs its own film
 !brand-site/src/media/*.mp4
+!brand/media/*.mp4
