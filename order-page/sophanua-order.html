@@ -446,9 +446,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   /* one tap: open WhatsApp with the order, then show what was sent */
   function message() {
     var msg = "ສະບາຍດີ ໂສພານົວ\nຂ້ອຍຢາກສັ່ງ: " + itemText() + "\nລາຄາສິນຄ້າ: " + fmt(PRICE[state.pack] * state.qty) + " ກີບ (ບໍ່ລວມຄ່າສົ່ງ)";
-    var name = F.name.value.trim();
-    var phone = F.phone.value.trim();
-    var addr = F.addr.value.trim();
+    var name = F.name ? F.name.value.trim() : "";
+    var phone = F.phone ? F.phone.value.trim() : "";
+    var addr = F.addr ? F.addr.value.trim() : "";
     if (name || phone || addr) {
       msg += "\n";
       if (name) msg += "\nຊື່: " + name;
