@@ -54,7 +54,7 @@ header .wrap { display: flex; align-items: center; justify-content: space-betwee
 
 /* cap band (kept from the brand site) */
 .band { background: var(--chili); overflow: hidden; }
-.band-track { display: flex; width: max-content; gap: 2.6rem; padding-block: 12px; animation: slide 42s linear infinite; }
+.band-track { display: flex; width: max-content; gap: 2.6rem; padding-block: 12px; animation: slide 42s linear infinite; will-change: transform; transform: translate3d(0, 0, 0); }
 .band-track { align-items: center; }
 /* cap-style lettering: loopless Lao, slanted like the bottle's shrink band, English as an outline */
 .band-track span { display: inline-flex; align-items: center; gap: 1rem; white-space: nowrap; }
@@ -73,11 +73,11 @@ main .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9
 .btl {
   position: absolute; left: 0; bottom: 24%; height: 68%; width: auto;
   transform-origin: 50% 100%;
-  transform: translate(var(--x, 0px), var(--y, 0px)) scale(var(--s, 1));
+  transform: translate3d(var(--x, 0px), var(--y, 0px), 0) scale(var(--s, 1));
   opacity: var(--o, 0); filter: brightness(var(--b, 1));
   /* solid bottles only: opacity snaps (no half-transparent ghosts), position glides */
   transition: transform .85s cubic-bezier(.45, 0, .15, 1) var(--d, 0ms), opacity 0s linear var(--od, 0ms), filter .85s cubic-bezier(.45, 0, .15, 1) var(--d, 0ms);
-  will-change: transform; pointer-events: none; z-index: 2;
+  will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; pointer-events: none; z-index: 2;
 }
 .badge { position: absolute; left: 20px; top: 16px; display: grid; line-height: 1; }
 .badge b { font: 900 clamp(2.6rem, 5vw, 3.6rem)/1 var(--price); color: var(--gold-ink); }
@@ -441,7 +441,20 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     shelf.classList.add("still"); fn(); void shelf.offsetWidth;
     requestAnimationFrame(function () { requestAnimationFrame(function () { shelf.classList.remove("still"); }); });
   }
-  window.addEventListener("resize", function () { still(layout); });
+  var lastWidth = window.innerWidth;
+  var resizeTimer = null;
+  function onResize() {
+    var w = window.innerWidth;
+    // Mobile scroll shows/hides browser bar changing height only. Skip layout if width didn't change:
+    if (w === lastWidth) return;
+    lastWidth = w;
+    if (resizeTimer) cancelAnimationFrame(resizeTimer);
+    resizeTimer = requestAnimationFrame(function () { still(layout); });
+  }
+  window.addEventListener("resize", onResize, { passive: true });
+  window.addEventListener("orientationchange", function () {
+    setTimeout(function () { lastWidth = window.innerWidth; still(layout); }, 150);
+  }, { passive: true });
 
   /* one tap: open WhatsApp with the order, then show what was sent */
   function message() {

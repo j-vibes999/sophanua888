@@ -130,7 +130,7 @@ nav.links a:hover { color: var(--rice); background: var(--ember); }
 
 /* Cap band */
 .band { background: var(--chili); overflow: hidden; }
-.band-track { display: flex; width: max-content; gap: 2.6rem; padding-block: 14px; animation: slide 42s linear infinite; }
+.band-track { display: flex; width: max-content; gap: 2.6rem; padding-block: 14px; animation: slide 42s linear infinite; will-change: transform; transform: translate3d(0, 0, 0); }
 .band-track span, .num { font-variant-numeric: tabular-nums; }
 .band-track span { font: italic 900 1.35rem/1.4 var(--display); color: #fff6ea; white-space: nowrap; }
 @keyframes slide { to { transform: translateX(-50%); } }

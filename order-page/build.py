@@ -3,10 +3,13 @@
 import shutil, os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 s = open('sophanua-order.html', encoding='utf-8').read()
-fonts = s[s.index('<link rel="stylesheet" href="https://fonts.googleapis.com'):]
-fonts = fonts[:fonts.index('>') + 1]
+font_url = s[s.index('https://fonts.googleapis.com/css2'):]
+font_url = font_url[:font_url.index('"')]
+fonts = f'''<link rel="preload" as="style" href="{font_url}">
+<link rel="stylesheet" href="{font_url}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{font_url}"></noscript>'''
 body = s[s.index('<style>'):]
-head = '''<!doctype html>
+head = f'''<!doctype html>
 <html lang="lo">
 <head>
 <meta charset="utf-8">
@@ -24,7 +27,7 @@ head = '''<!doctype html>
 <link rel="apple-touch-icon" href="/media/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-''' + fonts + '''
+{fonts}
 <link rel="preload" as="image" href="media/bottle.webp?v=studio3" fetchpriority="high">
 '''
 end = body.index('</style>') + len('</style>')
